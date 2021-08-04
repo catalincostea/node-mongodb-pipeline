@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Web App - Node.js, MongoDB, docker-compose</title>
+
+<style>
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: black;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  /* Add padding to containers */
+  .container {
+    padding: 16px;
+    background-color: white;
+  }
+
+  /* Full-width input fields */
+  input[type=text], input[type=password] {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+  }
+
+  input[type=text]:focus, input[type=password]:focus {
+    background-color: #ddd;
+    outline: none;
+  }
+
+  /* Overwrite default styles of hr */
+  hr {
+    border: 1px solid #f1f1f1;
+    margin-bottom: 25px;
+  }
+
+  /* Set a style for the submit button */
+  .registerbtn {
+    background-color: #04AA6D;
+    color: white;
+    padding: 16px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+  }
+
+  .registerbtn:hover {
+    opacity: 1;
+  }
+
+  /* Add a blue text color to links */
+  a {
+    color: dodgerblue;
+  }
+
+  /* Set a grey background color and center the text of the "sign in" section */
+  .signin {
+    background-color: #f1f1f1;
+    text-align: center;
+  }
+
+
+#users {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#users td, #users th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#users tr:nth-child(even){background-color: #f2f2f2;}
+
+#users tr:hover {background-color: #ddd;}
+
+#users th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04AA6D;
+  color: white;
+}
+
+
+</style>
+</head>
+
+<body>
+
+  <form method="post" action="/item/add">
+    <label for="name">Input</label>
+    <input type="text" name="name">
+    <input type="submit" value="Add">
+  </form>
+
+
+  <form method="post" action="/item/add">
+    <div class="container">
+      <h1>New User Entry</h1>
+      <p>Please fill in the details:</p>
+      <hr>
+
+      <label for="name"><b>Full Name</b></label>
+      <input type="text" placeholder="Enter Full Name" name="name" id="name" required>
+
+      <label for="telephone"><b>Telephone Number</b></label>
+      <input type="text" placeholder="Enter Telephone Number" name="telephone" id="telephone" required>
+
+      <label for="age"><b>Age</b></label>
+      <input type="text" placeholder="Enter Age" name="age" id="age" required>
+      <hr>
+
+      <button type="submit" class="registerbtn">Submit</button>
+    </div>
+    
+    <div class="container signin">
+    </div>
+  </form>
+
+
+  <div class="container">
+    <h4>Registered Users:</h4>
+    <table id="users">
+      <tr>
+        <th>Company</th>
+        <th>Contact</th>
+        <th>Country</th>
+      </tr>
+      <% items.forEach(function(item) { %>
+        <tr>
+          <td><%= item.name %></td>
+          <td><%= item.telephone %></td>
+          <td><%= item.age %></td>
+        </tr>
+      <% }); %>
+    </table>
+
+  </div>
+
+</body>
+</html>
+
+
