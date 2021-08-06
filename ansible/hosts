@@ -1,2 +1,2 @@
-crc: 46 172.16.0.196
-
+[dev]
+172.16.0.196 ansible_user=admin
