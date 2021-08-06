@@ -9,6 +9,9 @@ pipeline {
     stages {
         stage("init code") {
             steps {
+                script {
+                   gv = load "script.groovy" 
+                }
                 echo ' ansible'
                 sh '''#!/bin/bash
                 rm -fr pipeline-test
