@@ -12,16 +12,16 @@ pipeline {
                 echo ' ansible'
                 sh '''#!/bin/bash
                 rm -fr pipeline-test
-                git clone https://github.com/catalincostea/pipeline-test.git
+                # git clone https://github.com/catalincostea/pipeline-test.git
                 #  git pull
                 echo ----
                 pwd
                 echo ----
                 ls -l
                 echo ----
-                # find
-                cat pipeline-test/ping.yaml
-                cat pipeline-test/dev.inv
+                find
+                #cat pipeline-test/ping.yaml
+                #cat pipeline-test/dev.inv
                 '''
             }
         }
