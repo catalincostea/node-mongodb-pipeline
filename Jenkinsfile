@@ -49,7 +49,7 @@ pipeline {
         }
         stage("deploy") {
             steps {
-                  ansiblePlaybook disableHostKeyChecking: true, becomeUser: 'admin', credentialsId: 'red-dev-admin', installation: 'ansible', playbook: 'pipeline-test/ping.yaml', inventory: 'pipeline-test/dev.inv', sudoUser: null
+                  ansiblePlaybook playbook: 'ansible/ping.yaml', inventory: 'ansible/hosts', becomeUser: 'admin', credentialsId: 'red-dev-admin', installation: 'ansible', sudoUser: null, disableHostKeyChecking: true
             }
         }
         stage("validate") {
