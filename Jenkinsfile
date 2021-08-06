@@ -10,6 +10,7 @@ pipeline {
         stage("init code") {
             steps {
                 ansiblePlaybook playbook: 'ansible/ping.yaml', inventory: 'ansible/inv/dev/hosts', becomeUser: 'admin', credentialsId: 'red-dev-admin', installation: 'ansible', sudoUser: null, disableHostKeyChecking: true
+                ansiblePlaybook playbook: 'ansible/build.yaml', inventory: 'ansible/inv/dev/hosts', becomeUser: 'admin', credentialsId: 'red-dev-admin', installation: 'ansible', sudoUser: null, disableHostKeyChecking: true
 
                 script {
                    gv = load "script.groovy" 
