@@ -5,3 +5,10 @@
       git:
         repo: 'https://github.com/catalincostea/node-mongodb-pipeline.git'
         dest: /opt/node-mongodb-pipeline
+
+    # use files parameter to use multiple docker-compose.yml files
+    - name: deploy Docker Compose stack
+      docker_compose:
+        project_src: /opt/node-mongodb-pipeline
+        files:
+        - docker-compose.yml
