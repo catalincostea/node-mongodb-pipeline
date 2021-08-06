@@ -2,5 +2,5 @@
 172.16.0.196 ansible_user=admin
 
 [prod]
-172.16.0.196
+172.16.0.196 ansible_user=admin
 
