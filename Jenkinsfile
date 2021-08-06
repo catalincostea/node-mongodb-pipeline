@@ -9,11 +9,16 @@ pipeline {
     stages {
         stage("init code") {
             steps {
+                ansiblePlaybook playbook: 'ansible/ping.yaml', inventory: 'ansible/hosts', becomeUser: 'admin', credentialsId: 'red-dev-admin', installation: 'ansible', sudoUser: null, disableHostKeyChecking: true
+
                 script {
                    gv = load "script.groovy" 
                 }
                 echo ' ansible'
                 sh '''#!/bin/bash
+                rm -fr pipeline-test
+                # git clone https://github.com/catalincostea/pipeline-test.git
+                #  git pull
                 echo ----
                 pwd
                 echo ----
@@ -22,7 +27,6 @@ pipeline {
                 # find
                 #cat pipeline-test/ping.yaml
                 #cat pipeline-test/dev.inv
-                docker ps -a
                 '''
             }
         }
@@ -47,7 +51,7 @@ pipeline {
         }
         stage("deploy") {
             steps {
-                  ansiblePlaybook playbook: 'ansible/ping.yaml', inventory: 'ansible/hosts', becomeUser: 'admin', credentialsId: 'red-dev-admin', installation: 'ansible', sudoUser: null, disableHostKeyChecking: true
+                  ansiblePlaybook playbook: 'ansible/ping.yaml', limit: 'prod', inventory: 'ansible/hosts', becomeUser: 'admin', credentialsId: 'red-dev-admin', installation: 'ansible', sudoUser: null, disableHostKeyChecking: true
             }
         }
         stage("validate") {
