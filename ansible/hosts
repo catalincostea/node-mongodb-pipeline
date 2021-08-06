@@ -1,6 +1,7 @@
-[dev]
-172.16.0.196 ansible_user=admin
-
-[prod]
-172.16.0.196 ansible_user=admin
+all:
+  hosts:
+    dev:
+        172.16.0.196: ansible_user=admin
+    prod:
+        172.16.0.132 ansible_user=ec2-user
 
