@@ -14,3 +14,6 @@ sudo chmod +x /usr/local/bin/docker-compose
 
 Ansible examples:
 https://www.middlewareinventory.com/blog/ansible-git-example/
+
+docker-compose up -d --build
+https://www.bogotobogo.com/DevOps/Docker/Docker-Compose-Node-MongoDB.php
