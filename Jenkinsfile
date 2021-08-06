@@ -3,15 +3,26 @@ def gv
 pipeline {
     agent any
     parameters {
-        choice(name: 'VERSION', choices: ['1.1.0', '1.2.0', '1.3.0'], description: '')
+        choice(name: 'VERSION', choices: ['1.1.0', '1.2.0', '1.3.0'], defaultValue: '1.3.0', description: '')
         booleanParam(name: 'executeTests', defaultValue: true, description: '')
     }
     stages {
-        stage("init build 3") {
+        stage("init code") {
             steps {
-                script {
-                   gv = load "script.groovy" 
-                }
+                echo ' ansible'
+                sh '''#!/bin/bash
+                rm -fr pipeline-test
+                git clone https://github.com/catalincostea/pipeline-test.git
+                #  git pull
+                echo ----
+                pwd
+                echo ----
+                ls -l
+                echo ----
+                # find
+                cat pipeline-test/ping.yaml
+                cat pipeline-test/dev.inv
+                '''
             }
         }
         stage("build") {
@@ -35,9 +46,7 @@ pipeline {
         }
         stage("deploy") {
             steps {
-                script {
-                    gv.deployApp()
-                }
+                  ansiblePlaybook disableHostKeyChecking: true, becomeUser: 'admin', credentialsId: 'red-dev-admin', installation: 'ansible', playbook: 'pipeline-test/ping.yaml', inventory: 'pipeline-test/dev.inv', sudoUser: null
             }
         }
         stage("validate") {
