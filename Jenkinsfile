@@ -29,7 +29,7 @@ pipeline {
                 #cat pipeline-test/dev.inv
                 cat ansible/ping.yaml
                 cat ansible/inv/dev/hosts
-                cat inv/prod/hosts
+                cat ansible/inv/prod/hosts
                 '''
             }
         }
