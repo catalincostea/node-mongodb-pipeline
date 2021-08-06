@@ -55,7 +55,8 @@ pipeline {
         }
         stage("deploy") {
             steps {
-                  ansiblePlaybook playbook: 'ansible/ping.yaml', limit: 'prod', inventory: 'ansible/inv/prod/hosts', becomeUser: 'admin', credentialsId: 'red-dev-admin', installation: 'ansible', sudoUser: null, disableHostKeyChecking: true
+                  ansiblePlaybook playbook: 'ansible/ping.yaml', inventory: 'ansible/inv/prod/hosts', becomeUser: 'admin', credentialsId: 'red-dev-admin', installation: 'ansible', sudoUser: null, disableHostKeyChecking: true
+                  //  limit: 'prod',
             }
         }
         stage("validate") {
