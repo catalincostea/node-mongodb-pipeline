@@ -1,6 +1,13 @@
 - hosts:
     - all
   tasks:
+    # - name: Install docker-compose
+    #   become: True
+    #   shell:
+    #     cmd: sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    #         sudo chmod +x /usr/local/bin/docker-compose
+
+
     - name: Install git
       yum:
         name: git
@@ -8,7 +15,13 @@
       become: yes
       become_user: root
       become_method: sudo
-       
+
+    - name: Run container
+      become: True
+      shell:
+        cmd: "docker-compose up -d --build"
+        chdir: /opt/node-mongodb-pipeline/
+
     # use files parameter to use multiple docker-compose.yml files
     # - name: deploy Docker Compose stack
     #   docker_compose:
