@@ -48,3 +48,4 @@
       shell:
         cmd: "/usr/local/bin/docker-compose up -d --build"
         chdir: /opt/node-mongodb-pipeline/
+
