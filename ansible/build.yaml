@@ -2,11 +2,11 @@
     - all
   tasks:
     - name: Install git
-      apt:
+      yum:
        name: git
        state: present
        update_cache: yes
-
+       
     - name: Git pull project
       git:
         repo: 'https://github.com/catalincostea/node-mongodb-pipeline.git'
