@@ -21,3 +21,7 @@ sudo chmod +x /usr/local/bin/docker-compose
 
 docker-compose up -d --build
 https://www.bogotobogo.com/DevOps/Docker/Docker-Compose-Node-MongoDB.php
+
+
+# Nginx API gateway
+https://www.domysee.com/blogposts/reverse-proxy-nginx-docker-compose
