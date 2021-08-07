@@ -24,9 +24,11 @@
     - file:
         path: /opt/node-mongodb-pipeline/
         state: directory
+        owner: ec2-user
         mode: 0755
-        # owner: foo
-        # group: foo
+      become: yes
+      become_user: root
+      become_method: sudo
 
     - name: Run container
       become: True
