@@ -3,16 +3,16 @@
   tasks:
     - name: Install git
       yum:
-       name: git
-       state: present
-       update_cache: yes
+        name: git
+        state: present
+        update_cache: yes
+        become: yes
+        become_user: root
        
     - name: Git pull project
       git:
         repo: 'https://github.com/catalincostea/node-mongodb-pipeline.git'
         dest: /opt/node-mongodb-pipeline
-        become: yes
-        become_user: root
 
     # use files parameter to use multiple docker-compose.yml files
     # - name: deploy Docker Compose stack
