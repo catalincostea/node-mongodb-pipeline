@@ -9,11 +9,6 @@
       become_user: root
       become_method: sudo
        
-    - name: Git pull project
-      git:
-        repo: 'https://github.com/catalincostea/node-mongodb-pipeline.git'
-        dest: /opt/node-mongodb-pipeline
-
     # use files parameter to use multiple docker-compose.yml files
     # - name: deploy Docker Compose stack
     #   docker_compose:
@@ -29,6 +24,11 @@
       become: yes
       become_user: root
       become_method: sudo
+
+    - name: Git pull project
+      git:
+        repo: 'https://github.com/catalincostea/node-mongodb-pipeline.git'
+        dest: /opt/node-mongodb-pipeline
 
     - name: Run container
       become: True
