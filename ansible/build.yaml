@@ -1,7 +1,13 @@
 - hosts:
     - all
   tasks:
-    - name: Just get information about the repository whether or not it has already been cloned locally
+    - name: Install git
+      apt:
+       name: git
+       state: present
+       update_cache: yes
+
+    - name: Git pull project
       git:
         repo: 'https://github.com/catalincostea/node-mongodb-pipeline.git'
         dest: /opt/node-mongodb-pipeline
