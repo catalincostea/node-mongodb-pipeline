@@ -5,9 +5,9 @@
       yum:
         name: git
         state: present
-        become: yes
-        become_user: root
-        become_method: sudo
+      become: yes
+      become_user: root
+      become_method: sudo
        
     - name: Git pull project
       git:
