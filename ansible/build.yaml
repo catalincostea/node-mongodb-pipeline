@@ -16,12 +16,6 @@
       become_user: root
       become_method: sudo
 
-    - name: Run container
-      become: True
-      shell:
-        cmd: "docker-compose up -d --build"
-        chdir: /opt/node-mongodb-pipeline/
-
     # use files parameter to use multiple docker-compose.yml files
     # - name: deploy Docker Compose stack
     #   docker_compose:
