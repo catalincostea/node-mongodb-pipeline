@@ -1,45 +1,22 @@
 - hosts:
     - all
   tasks:
-    # - name: Install docker-compose
-    #   become: True
-    #   shell:
-    #     cmd: sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-    #         sudo chmod +x /usr/local/bin/docker-compose
-
-
-    - name: Install git
-      yum:
-        name: git
-        state: present
-      become: yes
-      become_user: root
-      become_method: sudo
-
-    # use files parameter to use multiple docker-compose.yml files
-    # - name: deploy Docker Compose stack
-    #   docker_compose:
-    #     project_src: /opt/node-mongodb-pipeline
-    #     files:
-    #     - docker-compose.yml
-
-    - file:
-        path: /opt/node-mongodb-pipeline/
-        state: directory
-        owner: ec2-user
-        mode: 0755
-      become: yes
-      become_user: root
-      become_method: sudo
-
-    - name: Git pull project
-      git:
-        repo: 'https://github.com/catalincostea/node-mongodb-pipeline.git'
-        dest: /opt/node-mongodb-pipeline
-
     - name: Run container
       become: True
       shell:
         cmd: "/usr/local/bin/docker-compose up -d --build"
         chdir: /opt/node-mongodb-pipeline/
 
+
+
+docker tag local-image:tagname new-repo:tagname
+docker push new-repo:tagname
+
+
+
+docker tag node-mongodb-pipeline_node:latest catalincostea/node-mongoose:latest
+docker push catalincostea/node-mongoose:latest
+
+
+docker login -u catalincostea
+cf6ee0a0-84ca-488f-8217-70e22a3e9a04
