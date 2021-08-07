@@ -1,3 +1,4 @@
 [all]
 #172.16.0.196 ansible_user=admin
 172.16.0.127 ansible_user=ec2-user become_user=root become=yes
+
