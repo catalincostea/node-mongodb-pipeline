@@ -36,7 +36,7 @@ pipeline {
                 ansiblePlaybook(
                     playbook: 'ansible/publish.yaml', inventory: 'ansible/inv/dev/hosts', becomeUser: 'admin', 
                     credentialsId: 'red-dev-admin', installation: 'ansible', sudoUser: null, disableHostKeyChecking: true, 
-                    vaultCredentialsId: 'wr_token'
+                    vaultCredentialsId: 'wr_token', extras: "-e wr_token=${wr_token}"
                 )
 
                 
