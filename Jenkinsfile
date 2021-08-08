@@ -31,12 +31,10 @@ pipeline {
         }
         stage("build") {
             steps {
-                //ansiblePlaybook playbook: 'ansible/build.yaml', inventory: 'ansible/inv/dev/hosts', becomeUser: 'admin', credentialsId: 'red-dev-admin', installation: 'ansible', sudoUser: null, disableHostKeyChecking: true
-                ansiblePlaybook(
-                    playbook: 'ansible/publish.yaml', inventory: 'ansible/inv/dev/hosts', becomeUser: 'admin', 
-                    credentialsId: 'red-dev-admin', installation: 'ansible', sudoUser: null, disableHostKeyChecking: true, 
-                    vaultCredentialsId: 'wr_token', extras: "-e wr_token=${wr_token}"
-                )           
+                ansiblePlaybook( 
+                    playbook: 'ansible/build.yaml', inventory: 'ansible/inv/dev/hosts', becomeUser: 'admin', 
+                    credentialsId: 'red-dev-admin', installation: 'ansible', sudoUser: null, disableHostKeyChecking: true
+                )
             }
         }
         stage("test") {
@@ -49,6 +47,15 @@ pipeline {
                 script {
                     gv.testApp()
                 }
+            }
+        }
+        stage("publish") {
+            steps {
+                ansiblePlaybook(
+                    playbook: 'ansible/publish.yaml', inventory: 'ansible/inv/dev/hosts', becomeUser: 'admin', 
+                    credentialsId: 'red-dev-admin', installation: 'ansible', sudoUser: null, disableHostKeyChecking: true, 
+                    vaultCredentialsId: 'wr_token', extras: "-e wr_token=${wr_token}"
+                )           
             }
         }
         stage("deploy") {
