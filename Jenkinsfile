@@ -8,7 +8,6 @@ pipeline {
     }
     environment {
         wr_token = credentials('wr_token')
-        wr_token2 = 'cf6ee0a0-84ca-488f-8217-70e22a3e9a04'
     }
     stages {    
         stage("init code") {
@@ -16,8 +15,7 @@ pipeline {
                 // ansiblePlaybook(
                 //     playbook: 'ansible/ping.yaml', inventory: 'ansible/inv/dev/hosts', becomeUser: 'admin', 
                 //     credentialsId: 'red-dev-admin', installation: 'ansible', sudoUser: null, 
-                //     disableHostKeyChecking: true, 
-                //     vaultCredentialsId: 'wr_token', extras: 'wr_token=cf6ee0a0-84ca-488f-8217-70e22a3e9a04'
+                //     disableHostKeyChecking: true 
                 // )
 
                 script {
@@ -27,18 +25,15 @@ pipeline {
                 sh '''#!/bin/bash
                 rm -fr pipeline-test
                 # find
-                set
+                # set
                 '''
             }
         }
         stage("build") {
             steps {
-                //ansiblePlaybook playbook: 'ansible/build.yaml', inventory: 'ansible/inv/dev/hosts', becomeUser: 'admin', credentialsId: 'red-dev-admin', installation: 'ansible', sudoUser: null, disableHostKeyChecking: true
-                ansiblePlaybook(
-                    playbook: 'ansible/publish.yaml', inventory: 'ansible/inv/dev/hosts', becomeUser: 'admin', 
-                    credentialsId: 'red-dev-admin', installation: 'ansible', sudoUser: null, disableHostKeyChecking: true, 
-                    vaultCredentialsId: 'wr_token', extras: "-e wr_token=${wr_token}"
-                )           
+                // ansiblePlaybook 
+                //     playbook: 'ansible/build.yaml', inventory: 'ansible/inv/dev/hosts', becomeUser: 'admin',
+                //     credentialsId: 'red-dev-admin', installation: 'ansible', sudoUser: null, disableHostKeyChecking: true      
             }
         }
         stage("test") {
@@ -53,6 +48,14 @@ pipeline {
                 }
             }
         }
+        stage("publish") {
+            steps {
+                ansiblePlaybook(
+                    playbook: 'ansible/publish.yaml', inventory: 'ansible/inv/dev/hosts', becomeUser: 'admin', 
+                    credentialsId: 'red-dev-admin', installation: 'ansible', sudoUser: null, disableHostKeyChecking: true, 
+                    vaultCredentialsId: 'wr_token', extras: "-e wr_token=${wr_token}"
+                )           
+            }
         stage("deploy") {
             steps {
                   ansiblePlaybook playbook: 'ansible/ping.yaml', inventory: 'ansible/inv/prod/hosts', becomeUser: 'admin', credentialsId: 'red-dev-admin', installation: 'ansible', sudoUser: null, disableHostKeyChecking: true
