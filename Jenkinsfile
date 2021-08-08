@@ -7,7 +7,8 @@ pipeline {
         booleanParam(name: 'executeTests', defaultValue: true, description: '')
     }
     environment {
-        wr_token = 'cf6ee0a0-84ca-488f-8217-70e22a3e9a04'
+        wr_token = credentials('wr_token')
+        wr_token2 = 'cf6ee0a0-84ca-488f-8217-70e22a3e9a04'
     }
     stages {    
         stage("init code") {
