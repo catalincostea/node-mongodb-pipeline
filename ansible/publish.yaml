@@ -4,7 +4,6 @@
     - name: Login, tag and publish image
       command: "{{item}}"
       with_items:
-       - set
        - docker tag node-mongodb-pipeline_node:latest catalincostea/node-mongoose:latest
        - docker login -u catalincostea -p {{wr_token}}
        - docker push catalincostea/node-mongoose:latest
