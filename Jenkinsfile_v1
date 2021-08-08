@@ -9,11 +9,7 @@ pipeline {
     stages {
         stage("init code") {
             steps {
-                ansiblePlaybook(
-                    playbook: 'ansible/ping.yaml', inventory: 'ansible/inv/dev/hosts', becomeUser: 'admin', 
-                    credentialsId: 'red-dev-admin', installation: 'ansible', sudoUser: null, 
-                    disableHostKeyChecking: true, vaultCredentialsId: 'wr_token'
-                )
+                ansiblePlaybook playbook: 'ansible/ping.yaml', inventory: 'ansible/inv/dev/hosts', becomeUser: 'admin', credentialsId: 'red-dev-admin', installation: 'ansible', sudoUser: null, disableHostKeyChecking: true
 
                 script {
                    gv = load "script.groovy" 
@@ -21,8 +17,19 @@ pipeline {
                 echo ' ansible'
                 sh '''#!/bin/bash
                 rm -fr pipeline-test
-                find
-                set
+                # git clone https://github.com/catalincostea/pipeline-test.git
+                #  git pull
+                echo ----
+                pwd
+                echo ----
+                ls -l
+                echo ----
+                # find
+                #cat pipeline-test/ping.yaml
+                #cat pipeline-test/dev.inv
+                cat ansible/ping.yaml
+                cat ansible/inv/dev/hosts
+                cat ansible/inv/prod/hosts
                 '''
             }
         }

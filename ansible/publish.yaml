@@ -1,22 +1,19 @@
 - hosts:
     - all
   tasks:
-    - name: Run container
-      become: True
-      shell:
-        cmd: "/usr/local/bin/docker-compose up -d --build"
-        chdir: /opt/node-mongodb-pipeline/
+    - name: Login, tag and publish image
+      command: "{{item}}"
+      with_items:
+       - docker tag node-mongodb-pipeline_node:latest catalincostea/node-mongoose:latest
+       - docker login -u catalincostea -p {{wr_token}}
+       - docker push catalincostea/node-mongoose:latest
+
+
+# docker tag local-image:tagname new-repo:tagname
+# docker push new-repo:tagname
+
+# docker tag node-mongodb-pipeline_node:latest catalincostea/node-mongoose:latest
+# docker push catalincostea/node-mongoose:latest
 
 
 
-docker tag local-image:tagname new-repo:tagname
-docker push new-repo:tagname
-
-
-
-docker tag node-mongodb-pipeline_node:latest catalincostea/node-mongoose:latest
-docker push catalincostea/node-mongoose:latest
-
-
-docker login -u catalincostea
-cf6ee0a0-84ca-488f-8217-70e22a3e9a04
