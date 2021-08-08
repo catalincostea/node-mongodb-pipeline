@@ -30,8 +30,10 @@ pipeline {
         stage("build") {
             steps {
                 //ansiblePlaybook playbook: 'ansible/build.yaml', inventory: 'ansible/inv/dev/hosts', becomeUser: 'admin', credentialsId: 'red-dev-admin', installation: 'ansible', sudoUser: null, disableHostKeyChecking: true
-                ansiblePlaybook                     playbook: 'ansible/build.yaml', inventory: 'ansible/inv/dev/hosts', becomeUser: 'admin', credentialsId: 'red-dev-admin', installation: 'ansible', sudoUser: null, disableHostKeyChecking: true, vaultCredentialsId: 'wr_token', extras: 'wr_token=cf6ee0a0-84ca-488f-8217-70e22a3e9a04'
+                ansiblePlaybook extras: 'version=1.23.45', playbook: 'ansible/build.yaml', inventory: 'ansible/inv/dev/hosts', becomeUser: 'admin', credentialsId: 'red-dev-admin', installation: 'ansible', sudoUser: null, disableHostKeyChecking: true, vaultCredentialsId: 'wr_token'
+
                 
+                // extras: "wr_token=cf6ee0a0-84ca-488f-8217-70e22a3e9a04"                
             }
         }
         stage("test") {
