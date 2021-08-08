@@ -12,7 +12,8 @@ pipeline {
                 ansiblePlaybook(
                     playbook: 'ansible/ping.yaml', inventory: 'ansible/inv/dev/hosts', becomeUser: 'admin', 
                     credentialsId: 'red-dev-admin', installation: 'ansible', sudoUser: null, 
-                    disableHostKeyChecking: true, vaultCredentialsId: 'wr_token'
+                    disableHostKeyChecking: true, 
+                    vaultCredentialsId: 'wr_token', extras: 'wr_token=cf6ee0a0-84ca-488f-8217-70e22a3e9a04'
                 )
 
                 script {
