@@ -6,6 +6,10 @@ pipeline {
         choice(name: 'VERSION', choices: ['1.1.0', '1.2.0', '1.3.0'], description: '')
         booleanParam(name: 'executeTests', defaultValue: true, description: '')
     }
+    environment {
+        MY_ENV_VAR='something',
+        wr_token='cf6ee0a0-84ca-488f-8217-70e22a3e9a04'
+    }
     stages {
         stage("init code") {
             steps {
@@ -30,7 +34,7 @@ pipeline {
         stage("build") {
             steps {
                 //ansiblePlaybook playbook: 'ansible/build.yaml', inventory: 'ansible/inv/dev/hosts', becomeUser: 'admin', credentialsId: 'red-dev-admin', installation: 'ansible', sudoUser: null, disableHostKeyChecking: true
-                ansiblePlaybook extras: 'version=1.23.45', playbook: 'ansible/build.yaml', inventory: 'ansible/inv/dev/hosts', becomeUser: 'admin', credentialsId: 'red-dev-admin', installation: 'ansible', sudoUser: null, disableHostKeyChecking: true, vaultCredentialsId: 'wr_token'
+                ansiblePlaybook playbook: 'ansible/build.yaml', inventory: 'ansible/inv/dev/hosts', becomeUser: 'admin', credentialsId: 'red-dev-admin', installation: 'ansible', sudoUser: null, disableHostKeyChecking: true, vaultCredentialsId: 'wr_token'
 
                 
                 // extras: "wr_token=cf6ee0a0-84ca-488f-8217-70e22a3e9a04"                
