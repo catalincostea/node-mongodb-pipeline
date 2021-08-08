@@ -25,3 +25,7 @@ https://www.bogotobogo.com/DevOps/Docker/Docker-Compose-Node-MongoDB.php
 
 # Nginx API gateway
 https://www.domysee.com/blogposts/reverse-proxy-nginx-docker-compose
+
+# Jenkins credentials
+
+https://www.jenkins.io/doc/book/pipeline/jenkinsfile/

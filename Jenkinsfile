@@ -29,13 +29,13 @@ pipeline {
                 '''
             }
         }
-        stage("build") {
-            steps {
-                // ansiblePlaybook 
-                //     playbook: 'ansible/build.yaml', inventory: 'ansible/inv/dev/hosts', becomeUser: 'admin',
-                //     credentialsId: 'red-dev-admin', installation: 'ansible', sudoUser: null, disableHostKeyChecking: true      
-            }
-        }
+        // stage("build") {
+        //     steps {
+        //         ansiblePlaybook 
+        //             playbook: 'ansible/build.yaml', inventory: 'ansible/inv/dev/hosts', becomeUser: 'admin',
+        //             credentialsId: 'red-dev-admin', installation: 'ansible', sudoUser: null, disableHostKeyChecking: true      
+        //     }
+        // }
         stage("test") {
             when {
                 expression {
@@ -56,7 +56,7 @@ pipeline {
                     vaultCredentialsId: 'wr_token', extras: "-e wr_token=${wr_token}"
                 )           
             }
-        }
+            
         stage("deploy") {
             steps {
                   ansiblePlaybook playbook: 'ansible/ping.yaml', inventory: 'ansible/inv/prod/hosts', becomeUser: 'admin', credentialsId: 'red-dev-admin', installation: 'ansible', sudoUser: null, disableHostKeyChecking: true
