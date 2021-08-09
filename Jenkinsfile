@@ -48,13 +48,12 @@ pipeline {
                     gv.testApp()
                 }
                 script {
-                    def HOST_IP = sh(script: "grep ansible_user ansible/inv/dev/hosts | grep -v '^#' | awk '{ print \$1 }'", returnStdout: true).trim()
+                    def HOST_IP = sh(script: "grep ansible_user ansible/inv/dev/hosts | head -n 1 | grep -v '^#' | awk '{ print \$1 }'", returnStdout: true).trim()
                     final String url = "http://$HOST_IP/item/list"
-
                     sleep(time:5, unit:"SECONDS")
+
                     final String response = sh(script: "curl -s $url", returnStdout: true).trim()
                     // final String response = sh(script: "curl -s `grep ansible_user ansible/inv/dev/hosts | grep -v '^#' | awk '{ print \$1 }'`", returnStdout: true).trim()
-
                     echo response
                 }
             }
@@ -75,9 +74,19 @@ pipeline {
             }
         }
         stage("validate") {
+
             steps {
                 script {
                     gv.validateApp()
+                }
+                script {
+                    def HOST_IP = sh(script: "grep ansible_user ansible/inv/prod/hosts | head -n 1 | grep -v '^#' | awk '{ print \$1 }'", returnStdout: true).trim()
+                    final String url = "http://$HOST_IP/item/list"
+                    sleep(time:5, unit:"SECONDS")
+
+                    final String response = sh(script: "curl -s $url", returnStdout: true).trim()
+                    // final String response = sh(script: "curl -s `grep ansible_user ansible/inv/dev/hosts | grep -v '^#' | awk '{ print \$1 }'`", returnStdout: true).trim()
+                    echo response
                 }
             }
         }
