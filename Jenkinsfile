@@ -3,7 +3,7 @@ def gv
 pipeline {
     agent any
     parameters {
-        choice(name: 'VERSION', choices: ['1.1.0', '1.2.0', '1.3.0'], description: '')
+        //choice(name: 'VERSION', choices: ['1.1.0', '1.2.0', '1.3.0'], description: '')
         booleanParam(name: 'executeTests', defaultValue: true, description: '')
     }
     environment {
@@ -48,9 +48,10 @@ pipeline {
                     gv.testApp()
                 }
                 script {
-                    final String url = "http://172.16.0.127/item/list"
+                    //final String url = "http://172.16.0.127/item/list"
                     sleep(time:5, unit:"SECONDS")
-                    final String response = sh(script: "curl -s $url", returnStdout: true).trim()
+                    //final String response = sh(script: "curl -s $url", returnStdout: true).trim()
+                    final String response = sh(script: "curl -s `grep ansible_user ansible/inv/dev/hosts | grep -v '^#' | awk '{ print \\$1 }'`", returnStdout: true).trim()
 
                     echo response
                 }
