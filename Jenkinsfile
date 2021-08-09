@@ -49,7 +49,7 @@ pipeline {
                 }
                 script {
                     final String url = "http://172.16.0.127/item/list"
-
+                    sleep(time:5, unit:"SECONDS")
                     final String response = sh(script: "curl -s $url", returnStdout: true).trim()
 
                     echo response
