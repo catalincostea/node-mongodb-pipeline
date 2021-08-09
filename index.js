@@ -24,6 +24,15 @@ app.get('/', (req, res) => {
     .catch(err => res.status(404).json({ msg: 'No items found' }));
 });
 
+app.get('/item/list', (req, res) => {
+  Item.find()
+    .then(items => {
+        console.log("/item/list");
+        res.json( JSON.stringify({ items }) )
+    })
+    .catch(err => res.status(404).json({ msg: 'No items found' }));
+});
+
 app.post('/item/add', (req, res) => {
   const newItem = new Item({
     name: req.body.name,

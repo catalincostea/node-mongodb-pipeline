@@ -47,6 +47,13 @@ pipeline {
                 script {
                     gv.testApp()
                 }
+                script {
+                    final String url = "http://172.16.0.127/item/list"
+
+                    final String response = sh(script: "curl -s $url", returnStdout: true).trim()
+
+                    echo response
+                }
             }
         }
         stage("publish") {
