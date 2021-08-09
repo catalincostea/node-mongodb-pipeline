@@ -1,4 +1,6 @@
 def gv
+def url_dev =  'http://172.16.0.14'
+def url_prod  =  'http://172.16.0.14'
 
 pipeline {
     agent any
@@ -12,6 +14,9 @@ pipeline {
     stages {    
         stage("init code") {
             steps {
+                echo 'Dev env:', $url_dev
+                echo 'Prod env:', $url_prod
+ 
                 // ansiblePlaybook(
                 //     playbook: 'ansible/ping.yaml', inventory: 'ansible/inv/dev/hosts', becomeUser: 'admin', 
                 //     credentialsId: 'red-dev-admin', installation: 'ansible', sudoUser: null, 
@@ -21,7 +26,6 @@ pipeline {
                 script {
                    gv = load "script.groovy" 
                 }
-                echo 'Init code'
                 sh '''#!/bin/bash
                 # rm -fr node-mongodb-pipeline
                 # find
@@ -49,6 +53,7 @@ pipeline {
                 }
                 script {
                     def HOST_IP = sh(script: "grep ansible_user ansible/inv/dev/hosts | grep -v '^#' | head -n 1 | awk '{ print \$1 }'", returnStdout: true).trim()
+                    url_dev = HOST_IP
                     final String url = "http://$HOST_IP/item/list"
                     sleep(time:5, unit:"SECONDS")
 
@@ -83,6 +88,7 @@ pipeline {
                 }
                 script {
                     def HOST_IP = sh(script: "grep ansible_user ansible/inv/prod/hosts | grep -v '^#' | head -n 1 | awk '{ print \$1 }'", returnStdout: true).trim()
+                    url_prod = HOST_IP
                     final String url = "http://$HOST_IP/item/list"
                     sleep(time:5, unit:"SECONDS")
 
@@ -90,6 +96,8 @@ pipeline {
                     // final String response = sh(script: "curl -s `grep ansible_user ansible/inv/dev/hosts | grep -v '^#' | awk '{ print \$1 }'`", returnStdout: true).trim()
                     echo response
                 }
+                echo 'Dev env:', $url_dev
+                echo 'Prod env:', $url_prod
             }
         }
     }   
