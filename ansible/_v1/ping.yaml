@@ -1,4 +1,0 @@
-- hosts:
-    - 172.16.0.196
-  tasks:
-    - action: ping
