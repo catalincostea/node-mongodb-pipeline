@@ -51,7 +51,7 @@ pipeline {
                     //final String url = "http://172.16.0.127/item/list"
                     sleep(time:5, unit:"SECONDS")
                     //final String response = sh(script: "curl -s $url", returnStdout: true).trim()
-                    final String response = sh(script: "curl -s `grep ansible_user ansible/inv/dev/hosts | grep -v '^#' | awk '{ print \\$1 }'`", returnStdout: true).trim()
+                    final String response = sh(script: "curl -s `grep ansible_user ansible/inv/dev/hosts | grep -v '^#' | awk '{ print \$1 }'`", returnStdout: true).trim()
 
                     echo response
                 }
