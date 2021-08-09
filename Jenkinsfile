@@ -21,9 +21,9 @@ pipeline {
                 script {
                    gv = load "script.groovy" 
                 }
-                echo ' ansible'
+                echo 'Init code'
                 sh '''#!/bin/bash
-                rm -fr pipeline-test
+                # rm -fr node-mongodb-pipeline
                 # find
                 # set
                 '''
@@ -48,7 +48,7 @@ pipeline {
                     gv.testApp()
                 }
                 script {
-                    def HOST_IP = sh(script: "grep ansible_user ansible/inv/dev/hosts | head -n 1 | grep -v '^#' | awk '{ print \$1 }'", returnStdout: true).trim()
+                    def HOST_IP = sh(script: "grep ansible_user ansible/inv/dev/hosts | grep -v '^#' | head -n 1 | awk '{ print \$1 }'", returnStdout: true).trim()
                     final String url = "http://$HOST_IP/item/list"
                     sleep(time:5, unit:"SECONDS")
 
@@ -69,8 +69,10 @@ pipeline {
         }
         stage("deploy") {
             steps {
-                  ansiblePlaybook playbook: 'ansible/ping.yaml', inventory: 'ansible/inv/prod/hosts', becomeUser: 'admin', credentialsId: 'red-dev-admin', installation: 'ansible', sudoUser: null, disableHostKeyChecking: true
-                  //  limit: 'prod',
+                ansiblePlaybook( 
+                    playbook: 'ansible/build.yaml', inventory: 'ansible/inv/prod/hosts', becomeUser: 'admin', 
+                    credentialsId: 'red-dev-admin', installation: 'ansible', sudoUser: null, disableHostKeyChecking: true
+                )
             }
         }
         stage("validate") {
@@ -80,7 +82,7 @@ pipeline {
                     gv.validateApp()
                 }
                 script {
-                    def HOST_IP = sh(script: "grep ansible_user ansible/inv/prod/hosts | head -n 1 | grep -v '^#' | awk '{ print \$1 }'", returnStdout: true).trim()
+                    def HOST_IP = sh(script: "grep ansible_user ansible/inv/prod/hosts | grep -v '^#' | head -n 1 | awk '{ print \$1 }'", returnStdout: true).trim()
                     final String url = "http://$HOST_IP/item/list"
                     sleep(time:5, unit:"SECONDS")
 
