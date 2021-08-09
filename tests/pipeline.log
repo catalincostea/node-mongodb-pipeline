@@ -1,0 +1,204 @@
+Started by user cata
+ > git rev-parse --resolve-git-dir /var/jenkins_home/caches/git-f4915fccfd7adfe7e8be1699b76bc15a/.git # timeout=10
+Setting origin to https://github.com/catalincostea/node-mongodb-pipeline.git
+ > git config remote.origin.url https://github.com/catalincostea/node-mongodb-pipeline.git # timeout=10
+Fetching origin...
+Fetching upstream changes from origin
+ > git --version # timeout=10
+ > git --version # 'git version 2.20.1'
+ > git config --get remote.origin.url # timeout=10
+ > git fetch --tags --force --progress -- origin +refs/heads/*:refs/remotes/origin/* # timeout=10
+Seen branch in repository origin/main
+Seen 1 remote branch
+Obtained Jenkinsfile from 5d4811b4f23887c974614aa38ad5a95d1a12923e
+Running in Durability level: MAX_SURVIVABILITY
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/jenkins_home/workspace/node-mongodb-pipeline_main
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/node-mongodb-pipeline_main/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/catalincostea/node-mongodb-pipeline.git # timeout=10
+Fetching without tags
+Fetching upstream changes from https://github.com/catalincostea/node-mongodb-pipeline.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.20.1'
+ > git fetch --no-tags --force --progress -- https://github.com/catalincostea/node-mongodb-pipeline.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+Checking out Revision 5d4811b4f23887c974614aa38ad5a95d1a12923e (main)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 5d4811b4f23887c974614aa38ad5a95d1a12923e # timeout=10
+Commit message: ".."
+ > git rev-list --no-walk d67ea2a0a85522224d4390b68b4749d03fccabbc # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withCredentials
+Masking supported pattern matches of $wr_token
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (init code)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] load
+[Pipeline] { (script.groovy)
+[Pipeline] }
+[Pipeline] // load
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] sh
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (build)
+[Pipeline] ansiblePlaybook
+[node-mongodb-pipeline_main] $ /usr/bin/ansible-playbook ansible/build.yaml -i ansible/inv/dev/hosts --private-key /var/jenkins_home/workspace/node-mongodb-pipeline_main/ssh7607750838337097005.key -u jenkins
+
+PLAY [all] *********************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [172.16.0.14]
+
+TASK [Install docker-compose] **************************************************
+changed: [172.16.0.14]
+
+TASK [Install git] *************************************************************
+ok: [172.16.0.14]
+
+TASK [file] ********************************************************************
+ok: [172.16.0.14]
+
+TASK [Git pull project] ********************************************************
+changed: [172.16.0.14]
+
+TASK [Run container] ***********************************************************
+changed: [172.16.0.14]
+
+PLAY RECAP *********************************************************************
+172.16.0.14                : ok=6    changed=3    unreachable=0    failed=0   
+
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (test)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] echo
+testing the application...
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
++ grep ansible_user ansible/inv/dev/hosts
++ grep -v ^#
++ head -n 1
++ awk { print $1 }
+[Pipeline] sleep
+Sleeping for 5 sec
+[Pipeline] sh
++ curl -s http://172.16.0.14/item/list
+[Pipeline] echo
+"{\"items\":[]}"
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (publish)
+[Pipeline] ansiblePlaybook
+Warning: A secret was passed to "ansiblePlaybook" using Groovy String interpolation, which is insecure.
+         Affected argument(s) used the following variable(s): [wr_token]
+         See https://jenkins.io/redirect/groovy-string-interpolation for details.
+[node-mongodb-pipeline_main] $ /usr/bin/ansible-playbook ansible/publish.yaml -i ansible/inv/dev/hosts --private-key /var/jenkins_home/workspace/node-mongodb-pipeline_main/ssh2558897373923537404.key -u jenkins -e wr_token=****
+
+PLAY [all] *********************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [172.16.0.14]
+
+TASK [Login, tag and publish image] ********************************************
+changed: [172.16.0.14] => (item=docker tag node-mongodb-pipeline_node:latest catalincostea/node-mongoose:latest)
+changed: [172.16.0.14] => (item=docker login -u catalincostea -p ****)
+changed: [172.16.0.14] => (item=docker push catalincostea/node-mongoose:latest)
+
+PLAY RECAP *********************************************************************
+172.16.0.14                : ok=2    changed=1    unreachable=0    failed=0   
+
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (deploy)
+[Pipeline] ansiblePlaybook
+[node-mongodb-pipeline_main] $ /usr/bin/ansible-playbook ansible/build.yaml -i ansible/inv/prod/hosts --private-key /var/jenkins_home/workspace/node-mongodb-pipeline_main/ssh7654918389749553345.key -u jenkins
+
+PLAY [all] *********************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [172.16.0.127]
+
+TASK [Install docker-compose] **************************************************
+changed: [172.16.0.127]
+
+TASK [Install git] *************************************************************
+ok: [172.16.0.127]
+
+TASK [file] ********************************************************************
+ok: [172.16.0.127]
+
+TASK [Git pull project] ********************************************************
+changed: [172.16.0.127]
+
+TASK [Run container] ***********************************************************
+changed: [172.16.0.127]
+
+PLAY RECAP *********************************************************************
+172.16.0.127               : ok=6    changed=3    unreachable=0    failed=0   
+
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (validate)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] echo
+validating the application...
+[Pipeline] echo
+validating version null
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
++ grep ansible_user ansible/inv/prod/hosts
++ grep -v ^#
++ head -n 1
++ awk { print $1 }
+[Pipeline] sleep
+Sleeping for 5 sec
+[Pipeline] sh
++ curl -s http://172.16.0.127/item/list
+[Pipeline] echo
+"{\"items\":[{\"_id\":\"610e125b28123200126b2f6d\",\"name\":\"cata\",\"telephone\":\"123\",\"age\":\"4\",\"date\":\"2021-08-07T04:55:55.763Z\",\"__v\":0},{\"_id\":\"610f77a0755e6000199aeda9\",\"name\":\"asdf\",\"telephone\":\"123\",\"age\":\"11\",\"date\":\"2021-08-08T06:20:16.666Z\",\"__v\":0},{\"_id\":\"6110da8bdb6334001a3a4b49\",\"name\":\"test123\",\"telephone\":\"11111\",\"age\":\"22\",\"date\":\"2021-08-09T07:34:35.608Z\",\"__v\":0}]}"
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] echo
+Dev env: http://172.16.0.14
+[Pipeline] echo
+Prod env: http://172.16.0.127
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS

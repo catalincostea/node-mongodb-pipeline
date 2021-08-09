@@ -55,6 +55,7 @@ pipeline {
                     sleep(time:5, unit:"SECONDS")
 
                     final String response = sh(script: "curl -s $url", returnStdout: true).trim()
+                    // Additional tests CRUD operations and DB consistency...
                     // final String response = sh(script: "curl -s `grep ansible_user ansible/inv/dev/hosts | grep -v '^#' | awk '{ print \$1 }'`", returnStdout: true).trim()
                     echo response
                 }

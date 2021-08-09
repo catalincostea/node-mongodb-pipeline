@@ -1,31 +1,28 @@
 # Web App - Node.js, MongoDB, docker-compose
-Tutorial
+
+
+[reposiory for Docker compose,](https://github.com/catalincostea/node-mongodb-pipeline) 
+
+
+
+## Docker images
+ NodeJS web app:    catalincostea/node-mongoose:latest
+                    https://hub.docker.com/repository/docker/catalincostea/node-mongoose
+ Nginx:             nginx:latest
+ MongoDB:           mongo:latest
+
+
+
+## Deliverables
 ---------
+All deliverables bellow are available in current repository
 
-[Docker compose : NodeJS with MongoDB](https://github.com/catalincostea/node-mongodb-pipeline) 
-
-
-
-
-
-Ansible examples:
-https://www.middlewareinventory.com/blog/ansible-git-example/
-
-
-
-# Doker Compose / linux / Dev tier / build on debian 9:
-
-sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
+ Source code for the front end and backend of the application
+ Docker images
+ Application configuration files (e.g. Docker-compose)
+ Tests scripts and results
+ Ansible playbook and inventory for deployment of the application
+ Link to virtual machine where we can see the application. Alternatively, a video of the application running can be added to the public repository
+ To facilitate navigation of the repository, please created a Readme file.
 
 
-docker-compose up -d --build
-https://www.bogotobogo.com/DevOps/Docker/Docker-Compose-Node-MongoDB.php
-
-
-# Nginx API gateway
-https://www.domysee.com/blogposts/reverse-proxy-nginx-docker-compose
-
-# Jenkins credentials
-
-https://www.jenkins.io/doc/book/pipeline/jenkinsfile/
