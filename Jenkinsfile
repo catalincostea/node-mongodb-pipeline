@@ -1,6 +1,6 @@
 def gv
-def url_dev =  'http://172.16.0.14'
-def url_prod  =  'http://172.16.0.14'
+def url_dev
+def url_prod
 
 pipeline {
     agent any
@@ -14,9 +14,6 @@ pipeline {
     stages {    
         stage("init code") {
             steps {
-                echo "Dev env: $url_dev"
-                echo "Prod env: $url_prod"
- 
                 // ansiblePlaybook(
                 //     playbook: 'ansible/ping.yaml', inventory: 'ansible/inv/dev/hosts', becomeUser: 'admin', 
                 //     credentialsId: 'red-dev-admin', installation: 'ansible', sudoUser: null, 
@@ -96,8 +93,8 @@ pipeline {
                     // final String response = sh(script: "curl -s `grep ansible_user ansible/inv/dev/hosts | grep -v '^#' | awk '{ print \$1 }'`", returnStdout: true).trim()
                     echo response
                 }
-                echo "Dev env: $url_dev"
-                echo "Prod env: $url_prod"
+                echo "Dev env: http://$url_dev"
+                echo "Prod env: http://$url_prod"
             }
         }
     }   
