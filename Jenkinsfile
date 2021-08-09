@@ -48,10 +48,12 @@ pipeline {
                     gv.testApp()
                 }
                 script {
-                    //final String url = "http://172.16.0.127/item/list"
+                    def HOST_IP = sh(script: "curl -s `grep ansible_user ansible/inv/dev/hosts | grep -v '^#' | awk '{ print \$1 }'`", returnStdout: true).trim()
+                    final String url = "http://$HOST_IP/item/list"
+
                     sleep(time:5, unit:"SECONDS")
-                    //final String response = sh(script: "curl -s $url", returnStdout: true).trim()
-                    final String response = sh(script: "curl -s `grep ansible_user ansible/inv/dev/hosts | grep -v '^#' | awk '{ print \$1 }'`", returnStdout: true).trim()
+                    final String response = sh(script: "curl -s $url", returnStdout: true).trim()
+                    // final String response = sh(script: "curl -s `grep ansible_user ansible/inv/dev/hosts | grep -v '^#' | awk '{ print \$1 }'`", returnStdout: true).trim()
 
                     echo response
                 }
